@@ -10,7 +10,6 @@ from todocli.utils.datetime_util import (
     ErrorParsingTime,
 )
 
-
 class InvalidTaskPath(Exception):
     def __init__(self, path):
         self.message = (
@@ -28,7 +27,6 @@ def parse_task_path(task_path):
         return elems[0], elems[1]
     else:
         return "Tasks", task_path
-
 
 def print_list(item_list):
     for i, x in enumerate(item_list):
@@ -138,48 +136,37 @@ def setup_parser():
 
 
 def main():
+    parser = setup_parser()
+
     try:
-        parser = setup_parser()
+        namespace, args = parser.parse_known_args()
+        parser.parse_args(args, namespace)
 
-        while True:
-            try:
-                namespace, args = parser.parse_known_args()
-                parser.parse_args(args, namespace)
+        if namespace.func is not None:
+            namespace.func(namespace)
+        else:
+            # No argument was provided
+            parser.print_usage()
 
-                if namespace.func is not None:
-                    namespace.func(namespace)
-                else:
-                    # No argument was provided
-                    parser.print_usage()
-
-            except argparse.ArgumentError:
-                pass
-            except wrapper.TaskNotFoundByName as e:
-                print(e.message)
-            except wrapper.ListNotFound as e:
-                print(e.message)
-            except wrapper.TaskNotFoundByIndex as e:
-                print(e.message)
-            except InvalidTaskPath as e:
-                print(e.message)
-            except TimeExpressionNotRecognized as e:
-                print(e.message)
-            except ErrorParsingTime as e:
-                print(e.message)
-            finally:
-                sys.stdout.flush()
-                sys.stderr.flush()
-
-            arg = input("\nInput command: ")
-            args = shlex.split(arg)
-            sys.argv = sys.argv[:1]
-            sys.argv += args
-
-    except KeyboardInterrupt:
-        print("\n")
-        exit(0)
+    except argparse.ArgumentError:
+        pass
+    except wrapper.TaskNotFoundByName as e:
+        print(e.message)
+    except wrapper.ListNotFound as e:
+        print(e.message)
+    except wrapper.TaskNotFoundByIndex as e:
+        print(e.message)
+    except InvalidTaskPath as e:
+        print(e.message)
+    except TimeExpressionNotRecognized as e:
+        print(e.message)
+    except ErrorParsingTime as e:
+        print(e.message)
+    finally:
+        sys.stdout.flush()
+        sys.stderr.flush()
 
 
 if __name__ == "__main__":
-    update_checker()
+    update_checker.check()
     main()

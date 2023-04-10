@@ -46,6 +46,10 @@ class Task:
             query_result["lastModifiedDateTime"]
         )
 
+        self.due_date_datetime = api_timestamp_to_datetime(
+            query_result["dueDateTime"]
+        )
+
         if "bodyLastModifiedDateTime" in query_result:
             self.body_last_modified_datetime = api_timestamp_to_datetime(
                 query_result["bodyLastModifiedDateTime"]
