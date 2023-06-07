@@ -1,9 +1,15 @@
 import argparse
+import json
 import shlex
 import sys
 
 import todocli.graphapi.wrapper as wrapper
 from todocli.utils import update_checker
+
+from todocli.models.todotask import (
+    TaskJsonEncoder,
+)
+
 from todocli.utils.datetime_util import (
     parse_datetime,
     TimeExpressionNotRecognized,
@@ -41,8 +47,10 @@ def ls(args):
 
 def lst(args):
     tasks = wrapper.get_tasks(list_name=args.list_name)
-    tasks_titles = [x.title for x in tasks]
-    print_list(tasks_titles)
+    json_str = json.dumps(tasks, cls=TaskJsonEncoder)
+    print(json_str)
+    # tasks_titles = [x.title for x in tasks]
+    # print_list(tasks_titles)
 
 
 def new(args):
