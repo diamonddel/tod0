@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\.circleci",
+    "\\.github",
+    "\\tests",
+    "\\todocli"
+  ],
+  "SelectedNode": "\\todocli\\cli.py",
+  "PreviewInSolutionExplorer": false
+}
