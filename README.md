@@ -64,6 +64,11 @@ Usage:
             
             md <task>           Sets a task to be due today.
                                 This will result in the task being put in the 'My Day' list.
+
+            mdr <list_name> <sample size>
+                                Randomly assigns tasks to be due today.
+                list_name       Name of the list to sample from              
+                sample size     # of tasks to assign to "My Day"
                 
             new <task> [-r time]
                                 Create a new task
