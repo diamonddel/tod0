@@ -40,8 +40,9 @@ For the UI client, run `tod0` from anywhere on your terminal.
     k       Move selection up
     l       Select folder and view tasks
     h       Go back to folder
-    
+
     n       Create task/folder
+    m       add task to 'my day'
     c       Mark task as complete
 
     ?       Display help
@@ -60,6 +61,9 @@ Usage:
             
             lst <list_name>     Display all tasks from list
                 list_name       Name of the list
+            
+            md <task>           Sets a task to be due today.
+                                This will result in the task being put in the 'My Day' list.
                 
             new <task> [-r time]
                                 Create a new task

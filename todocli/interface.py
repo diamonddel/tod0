@@ -200,7 +200,7 @@ class Tod0GUI:
 
             input_field = TextArea(
                 height=1,
-                prompt="[UP: j] [DOWN: k] [SELECT: l] [BACK: h] [CREATE: n] [MARK COMPLETE: c] [EXIT HELP: ESC]",
+                prompt="[UP: j] [DOWN: k] [SELECT: l] [BACK: h] [Add to MyDay: m] [CREATE: n] [MARK COMPLETE: c] [EXIT HELP: ESC]",
                 style="class:output-field",
                 multiline=False,
                 wrap_lines=False,
@@ -343,6 +343,46 @@ class Tod0GUI:
 
             self.prompt_window = input_field
             event.app.layout.focus(input_field)
+        
+        @kb.add("m")
+        def _(event):
+            """
+            Add task to my day
+            """
+
+            # Only receive input on task view mode
+            if self.is_focus_on_list or (
+                not self.is_focus_on_list and not self.tasks_ui
+            ):
+                return
+
+            Tod0GUI.is_waiting_prompt = True
+
+            input_field = TextArea(
+                height=1,
+                prompt="Add task to My Day? <y> to confirm. ",
+                style="class:input-field",
+                multiline=False,
+                wrap_lines=False,
+            )
+            
+            # Confirmation of commands
+            def confirm(buff):
+                user_input = input_field.text
+                if user_input == "y":
+                    # Add task to My Day
+                    with yaspin(text="Adding to My Day") as sp:
+                        wrapper.add_to_myday(
+                            list_id=self.lists[self.list_focus_idx].id,
+                            task_id=self.tasks[self.task_focus_idx].id,
+                        )
+
+                    self.load_tasks()
+                    # self.refresh_layout()
+
+                # Return to normal state
+                Tod0GUI.is_waiting_prompt = False
+                self.reset_prompt_window()
 
         @kb.add("n")
         def _(event):
