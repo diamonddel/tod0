@@ -1,5 +1,6 @@
 import argparse
 import json
+import random
 import shlex
 import sys
 
@@ -47,10 +48,8 @@ def ls(args):
 
 def lst(args):
     tasks = wrapper.get_tasks(list_name=args.list_name)
-    json_str = json.dumps(tasks, cls=TaskJsonEncoder)
-    print(json_str)
-    # tasks_titles = [x.title for x in tasks]
-    # print_list(tasks_titles)
+    tasks_titles = [x.title for x in tasks]
+    print_list(tasks_titles)
 
 
 def new(args):
@@ -71,6 +70,13 @@ def newl(args):
 def md(args):
     task_list, name = parse_task_path(args.task_name)
     wrapper.add_to_myday(list_name=task_list, task_name=try_parse_as_int(name))
+
+def mdr(args):
+    tasks = wrapper.get_tasks(list_name=args.list_name)
+    tasks_titles = [x.title for x in tasks]
+    task_sample = random.choices(tasks_titles,k=args.sample_size)
+    for task in task_sample:
+        wrapper.add_to_myday(list_name=args.list_name, task_name=task)
 
 def try_parse_as_int(input_str: str):
     try:
@@ -126,7 +132,13 @@ def setup_parser():
     subparser = subparsers.add_parser("md", help="Set task due date to Today")
     subparser.add_argument("task_name", help=helptext_task_name)
     subparser.set_defaults(func=md)
-    
+
+    #create parser for 'mdr' command
+    subparser = subparsers.add_parser("mdr", help="Mark a random selection of tasks as due today")
+    subparser.add_argument("list_name", help="Name of the list to sample")
+    subparser.add_argument("sample_size", type=int, help="number of tasks to randomly select")
+    subparser.set_defaults(func=mdr)
+
     # create parser for 'new' command
     subparser = subparsers.add_parser("new", help="Add a new task")
     subparser.add_argument("task_name", help=helptext_task_name)
