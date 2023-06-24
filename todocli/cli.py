@@ -68,6 +68,9 @@ def new(args):
 def newl(args):
     wrapper.create_list(args.list_name)
 
+def md(args):
+    task_list, name = parse_task_path(args.task_name)
+    wrapper.add_to_myday(list_name=task_list, task_name=try_parse_as_int(name))
 
 def try_parse_as_int(input_str: str):
     try:
@@ -119,6 +122,11 @@ def setup_parser():
     )
     subparser.set_defaults(func=lst)
 
+    # create parser for 'md' command
+    subparser = subparsers.add_parser("md", help="Set task due date to Today")
+    subparser.add_argument("task_name", help=helptext_task_name)
+    subparser.set_defaults(func=md)
+    
     # create parser for 'new' command
     subparser = subparsers.add_parser("new", help="Add a new task")
     subparser.add_argument("task_name", help=helptext_task_name)
