@@ -77,6 +77,7 @@ def mdr(args):
     task_sample = random.choices(tasks_titles,k=args.sample_size)
     for task in task_sample:
         wrapper.add_to_myday(list_name=args.list_name, task_name=task)
+        time.sleep(1)
 
 def try_parse_as_int(input_str: str):
     try:
