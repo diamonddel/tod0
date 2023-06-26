@@ -3,6 +3,7 @@ import json
 import random
 import shlex
 import sys
+import time
 
 import todocli.graphapi.wrapper as wrapper
 from todocli.utils import update_checker
