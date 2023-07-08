@@ -170,6 +170,31 @@ def remove_task(list_name: str, task_name: Union[str, int]):
     response = session.delete(endpoint)
     return True if response.ok else response.raise_for_status()
 
+def clear_due_date(
+    list_name: str = None,
+    task_name: Union[str, int] = None,
+    list_id: str = None,
+    task_id: str = None,
+):
+    assert (list_name is not None) or (
+        list_id is not None
+    ), "You must provide list_name or list_id"
+    assert (task_name is not None) or (
+        task_id is not None
+    ), "You must provide task_name or task_id"
+    # For compatibility with cli
+    if list_id is None:
+        list_id = get_list_id_by_name(list_name)
+    if task_id is None:
+        task_id = get_task_id_by_name(list_name, task_name)
+
+    endpoint = f"{BASE_URL}/{list_id}/tasks/{task_id}"
+    request_body = {
+        "dueDateTime": None,
+    }
+    session = get_oauth_session()
+    response = session.patch(endpoint, json=request_body)
+    return True if response.ok else response.raise_for_status() 
 
 def get_list_id_by_name(list_name):
     endpoint = f"{BASE_URL}?$filter=startswith(displayName,'{list_name}')"

@@ -450,6 +450,8 @@ class Tod0GUI:
             self.prompt_window = input_field
             event.app.layout.focus(input_field)
 
+        #note: May add a interface command for Clearing task due dates here later
+
         @kb_escape.add("escape", eager=True)
         def _(event):
             """

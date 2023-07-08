@@ -19,11 +19,18 @@ SYNOPSIS
             list_name       Name of the list to sample from              
             sample size     # of tasks to assign to "My Day"
 
+        cld <list_name> <task_name>
+                            Clears due date for a task
+            list_name       Name of list containing task
+            task_name       Name of task to clear due date for
+        
+        cla <list_name>     Clears due dates for all tasks in a list
+            list_name       Name of list to clear due dates for
                             
         new <task> [-r time]
                             Create a new task
-        task                Task to create. See 'Specifying a task' for details.
-        -r time             Set a reminder. See 'Specifying time' for details.              
+            task            Task to create. See 'Specifying a task' for details.
+            -r time         Set a reminder. See 'Specifying time' for details.              
             
         newl <list_name>    Create a new list
             list_name       Name of the list

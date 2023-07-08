@@ -69,7 +69,15 @@ Usage:
                                 Randomly assigns tasks to be due today.
                 list_name       Name of the list to sample from              
                 sample size     # of tasks to assign to "My Day"
-                
+
+            cld <list_name> <task_name>
+                            Clears due date for a task
+                list_name       Name of list containing task
+                task_name       Name of task to clear due date for
+            
+            cla <list_name>     Clears due dates for all tasks in a list
+                list_name       Name of list to clear due dates for
+                            
             new <task> [-r time]
                                 Create a new task
                 task            Task to create. See 'Specifying a task' for details.
@@ -87,13 +95,6 @@ Usage:
     OPTIONS
         -h, --help
             Display a usage message.
-        
-        -i, --interactive
-            Interactive mode. 
-            Don't exit after invoking a command, but ask for follow up commands instead.
-        
-        -n, --display_linenums
-            Display a line number for all lines which are output.
             
     Specifying a task:
         For commands which take 'task' as a parameter, 'task' can be one of the following:
