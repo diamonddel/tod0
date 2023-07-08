@@ -40,6 +40,16 @@ def print_list(item_list):
     for i, x in enumerate(item_list):
         print(f"[{i}]\t{x}")
 
+def cld(args):
+    task_list, name = parse_task_path(args.task_name)
+    wrapper.clear_due_date(list_name=task_list, task_name=try_parse_as_int(name))
+
+def cla(args):
+    tasks = wrapper.get_tasks(list_name=args.list_name)
+    tasks_titles = [x.title for x in tasks]
+    for task in tasks_titles:
+        wrapper.clear_due_date(list_name=args.list_name, task_name=task)
+        time.sleep(1)
 
 def ls(args):
     lists = wrapper.get_lists()
@@ -114,6 +124,17 @@ def setup_parser():
     parser.set_defaults(func=None)
     subparsers = parser.add_subparsers(help="Command to execute")
 
+    # create parser for 'cld' command
+    subparser = subparsers.add_parser("cld", help="Clear due date from task")
+    subparser.add_argument("list_name", help="Name of the list to sample")
+    subparser.add_argument("task_name", help=helptext_task_name)
+    subparser.set_defaults(func=cld)
+
+    # create parser for 'cla' command
+    subparser = subparsers.add_parser("cla", help="Clear due dates for all tasks in a list")
+    subparser.add_argument("list_name", help="Name of the list to clear task due dates for")
+    subparser.set_defaults(func=cla)
+
     # create parser for 'ls' command
     subparser = subparsers.add_parser("ls", help="Display all lists")
     subparser.set_defaults(func=ls)
@@ -132,6 +153,7 @@ def setup_parser():
 
     # create parser for 'md' command
     subparser = subparsers.add_parser("md", help="Set task due date to Today")
+    subparser.add_argument("list_name", help="Name of the list to sample")
     subparser.add_argument("task_name", help=helptext_task_name)
     subparser.set_defaults(func=md)
 
