@@ -4,7 +4,6 @@ exec(open("todocli/__init__.py").read())
 
 setup(
     name="tod0",
-    version=__version__,
     author="kiblee",
     author_email="kiblee@pm.me",
     packages=find_packages(),
